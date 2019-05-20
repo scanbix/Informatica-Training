@@ -1,0 +1,2 @@
+[GLOBAL]
+$$Deduction_Amount=IIF(Balance_Amount < 20000,500,0)

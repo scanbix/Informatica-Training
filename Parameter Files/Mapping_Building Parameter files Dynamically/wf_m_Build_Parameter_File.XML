@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE POWERMART SYSTEM "powrmart.dtd">
+<POWERMART CREATION_DATE="12/10/2012 15:56:46" REPOSITORY_VERSION="181.90">
+<REPOSITORY NAME="KG_Repository" VERSION="181" CODEPAGE="MS1252" DATABASETYPE="Oracle">
+<FOLDER NAME="1629" GROUP="" OWNER="Administrator" SHARED="NOTSHARED" DESCRIPTION="" PERMISSIONS="rwx---r--" UUID="09080fa0-ae16-42ed-9d92-bb8ef854f7cb">
+    <SOURCE BUSINESSNAME ="" DATABASETYPE ="Oracle" DBDNAME ="DBS300" DESCRIPTION ="" NAME ="T_PROCESS_STEP" OBJECTVERSION ="1" OWNERNAME ="" VERSIONNUMBER ="1">
+        <SOURCEFIELD BUSINESSNAME ="" DATATYPE ="number(p,s)" DESCRIPTION ="" FIELDNUMBER ="1" FIELDPROPERTY ="0" FIELDTYPE ="ELEMITEM" HIDDEN ="NO" KEYTYPE ="NOT A KEY" LENGTH ="21" LEVEL ="0" NAME ="PROCESS_ID" NULLABLE ="NULL" OCCURS ="0" OFFSET ="0" PHYSICALLENGTH ="19" PHYSICALOFFSET ="0" PICTURETEXT ="" PRECISION ="19" SCALE ="0" USAGE_FLAGS =""/>
+        <SOURCEFIELD BUSINESSNAME ="" DATATYPE ="number(p,s)" DESCRIPTION ="" FIELDNUMBER ="2" FIELDPROPERTY ="0" FIELDTYPE ="ELEMITEM" HIDDEN ="NO" KEYTYPE ="NOT A KEY" LENGTH ="21" LEVEL ="0" NAME ="JOB_ID" NULLABLE ="NULL" OCCURS ="0" OFFSET ="21" PHYSICALLENGTH ="19" PHYSICALOFFSET ="19" PICTURETEXT ="" PRECISION ="19" SCALE ="0" USAGE_FLAGS =""/>
+        <SOURCEFIELD BUSINESSNAME ="" DATATYPE ="number(p,s)" DESCRIPTION ="" FIELDNUMBER ="3" FIELDPROPERTY ="0" FIELDTYPE ="ELEMITEM" HIDDEN ="NO" KEYTYPE ="NOT A KEY" LENGTH ="12" LEVEL ="0" NAME ="SOURCE_SYSTEM_CODE_ID" NULLABLE ="NULL" OCCURS ="0" OFFSET ="42" PHYSICALLENGTH ="10" PHYSICALOFFSET ="38" PICTURETEXT ="" PRECISION ="10" SCALE ="0" USAGE_FLAGS =""/>
+        <SOURCEFIELD BUSINESSNAME ="" DATATYPE ="number(p,s)" DESCRIPTION ="" FIELDNUMBER ="4" FIELDPROPERTY ="0" FIELDTYPE ="ELEMITEM" HIDDEN ="NO" KEYTYPE ="NOT A KEY" LENGTH ="12" LEVEL ="0" NAME ="TARGET_SYSTEM_CODE_ID" NULLABLE ="NULL" OCCURS ="0" OFFSET ="54" PHYSICALLENGTH ="10" PHYSICALOFFSET ="48" PICTURETEXT ="" PRECISION ="10" SCALE ="0" USAGE_FLAGS =""/>
+        <SOURCEFIELD BUSINESSNAME ="" DATATYPE ="varchar2" DESCRIPTION ="" FIELDNUMBER ="5" FIELDPROPERTY ="0" FIELDTYPE ="ELEMITEM" HIDDEN ="NO" KEYTYPE ="NOT A KEY" LENGTH ="0" LEVEL ="0" NAME ="FOLDER_NAME" NULLABLE ="NULL" OCCURS ="0" OFFSET ="66" PHYSICALLENGTH ="30" PHYSICALOFFSET ="58" PICTURETEXT ="" PRECISION ="30" SCALE ="0" USAGE_FLAGS =""/>
+        <SOURCEFIELD BUSINESSNAME ="" DATATYPE ="varchar2" DESCRIPTION ="" FIELDNUMBER ="6" FIELDPROPERTY ="0" FIELDTYPE ="ELEMITEM" HIDDEN ="NO" KEYTYPE ="NOT A KEY" LENGTH ="0" LEVEL ="0" NAME ="SESSION_NAME" NULLABLE ="NULL" OCCURS ="0" OFFSET ="66" PHYSICALLENGTH ="60" PHYSICALOFFSET ="88" PICTURETEXT ="" PRECISION ="60" SCALE ="0" USAGE_FLAGS =""/>
+    </SOURCE>
+    <TARGET BUSINESSNAME ="" CONSTRAINT ="" DATABASETYPE ="Flat File" DESCRIPTION ="" NAME ="Parameter_File" OBJECTVERSION ="1" TABLEOPTIONS ="" VERSIONNUMBER ="1">
+        <FLATFILE CODEPAGE ="MS1252" CONSECDELIMITERSASONE ="NO" DELIMITED ="NO" DELIMITERS ="," ESCAPE_CHARACTER ="" KEEPESCAPECHAR ="NO" LINESEQUENTIAL ="NO" MULTIDELIMITERSASAND ="NO" NULLCHARTYPE ="ASCII" NULL_CHARACTER ="*" PADBYTES ="1" QUOTE_CHARACTER ="NONE" REPEATABLE ="NO" ROWDELIMITER ="0" SKIPROWS ="0" STRIPTRAILINGBLANKS ="NO"/>
+        <TARGETFIELD BUSINESSNAME ="" DATATYPE ="string" DESCRIPTION ="" FIELDNUMBER ="1" KEYTYPE ="NOT A KEY" NAME ="Parm_String" NULLABLE ="NULL" PICTURETEXT ="" PRECISION ="500" SCALE ="0"/>
+        <TABLEATTRIBUTE NAME ="Datetime Format" VALUE ="A  19 mm/dd/yyyy hh24:mi:ss"/>
+        <TABLEATTRIBUTE NAME ="Thousand Separator" VALUE ="None"/>
+        <TABLEATTRIBUTE NAME ="Decimal Separator" VALUE ="."/>
+        <TABLEATTRIBUTE NAME ="Line Endings" VALUE ="System default"/>
+    </TARGET>
+    <MAPPING DESCRIPTION ="This mapping creates entries in a parameter file that will, in turn, be used by other mappings." ISVALID ="YES" NAME ="m_Build_Parameter_File" OBJECTVERSION ="1" VERSIONNUMBER ="1">
+        <TRANSFORMATION DESCRIPTION ="" NAME ="EXP_POPULATE_PARMS" OBJECTVERSION ="1" REUSABLE ="NO" TYPE ="Expression" VERSIONNUMBER ="1">
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="PROCESS_ID" PICTURETEXT ="" PORTTYPE ="INPUT" PRECISION ="19" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="JOB_ID" PICTURETEXT ="" PORTTYPE ="INPUT" PRECISION ="10" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="SOURCE_SYSTEM_CODE_ID" PICTURETEXT ="" PORTTYPE ="INPUT" PRECISION ="10" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="TARGET_SYSTEM_CODE_ID" PICTURETEXT ="" PORTTYPE ="INPUT" PRECISION ="10" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="string" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="FOLDER_NAME" PICTURETEXT ="" PORTTYPE ="INPUT" PRECISION ="20" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="string" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="SESSION_NAME" PICTURETEXT ="" PORTTYPE ="INPUT" PRECISION ="50" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="string" DEFAULTVALUE ="ERROR(&apos;transformation error&apos;)" DESCRIPTION ="Concantenates all the ports together and converts the numeric value 10 to the ASCII carriage return." EXPRESSION ="&apos;[&apos;||RTRIM(FOLDER_NAME,&apos; &apos;)||&apos;.&apos;||RTRIM(SESSION_NAME,&apos; &apos;)||&apos;]&apos;||chr(10)||&apos;$$JobId=&apos;||TO_CHAR(JOB_ID)||chr(10)||&apos;$$SourceSysCodeId=&apos;||TO_CHAR(SOURCE_SYSTEM_CODE_ID)||chr(10)||&apos;$$TargetSysCodeId=&apos;||TO_CHAR(TARGET_SYSTEM_CODE_ID)||chr(10)" EXPRESSIONTYPE ="GENERAL" NAME ="Parm_String" PICTURETEXT ="" PORTTYPE ="OUTPUT" PRECISION ="500" SCALE ="0"/>
+            <TABLEATTRIBUTE NAME ="Tracing Level" VALUE ="Normal"/>
+        </TRANSFORMATION>
+        <TRANSFORMATION DESCRIPTION ="" NAME ="SQ_T_PROCESS_STEP" OBJECTVERSION ="1" REUSABLE ="NO" TYPE ="Source Qualifier" VERSIONNUMBER ="1">
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="PROCESS_ID" PICTURETEXT ="" PORTTYPE ="INPUT/OUTPUT" PRECISION ="19" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="JOB_ID" PICTURETEXT ="" PORTTYPE ="INPUT/OUTPUT" PRECISION ="19" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="SOURCE_SYSTEM_CODE_ID" PICTURETEXT ="" PORTTYPE ="INPUT/OUTPUT" PRECISION ="10" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="decimal" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="TARGET_SYSTEM_CODE_ID" PICTURETEXT ="" PORTTYPE ="INPUT/OUTPUT" PRECISION ="10" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="string" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="FOLDER_NAME" PICTURETEXT ="" PORTTYPE ="INPUT/OUTPUT" PRECISION ="20" SCALE ="0"/>
+            <TRANSFORMFIELD DATATYPE ="string" DEFAULTVALUE ="" DESCRIPTION ="" NAME ="SESSION_NAME" PICTURETEXT ="" PORTTYPE ="INPUT/OUTPUT" PRECISION ="50" SCALE ="0"/>
+            <TABLEATTRIBUTE NAME ="Sql Query" VALUE =""/>
+            <TABLEATTRIBUTE NAME ="User Defined Join" VALUE =""/>
+            <TABLEATTRIBUTE NAME ="Source Filter" VALUE =""/>
+            <TABLEATTRIBUTE NAME ="Number Of Sorted Ports" VALUE ="0"/>
+            <TABLEATTRIBUTE NAME ="Tracing Level" VALUE ="Normal"/>
+            <TABLEATTRIBUTE NAME ="Select Distinct" VALUE ="NO"/>
+            <TABLEATTRIBUTE NAME ="Is Partitionable" VALUE ="YES"/>
+            <TABLEATTRIBUTE NAME ="Pre SQL" VALUE =""/>
+            <TABLEATTRIBUTE NAME ="Post SQL" VALUE =""/>
+            <TABLEATTRIBUTE NAME ="Output is deterministic" VALUE ="NO"/>
+            <TABLEATTRIBUTE NAME ="Output is repeatable" VALUE ="Never"/>
+        </TRANSFORMATION>
+        <INSTANCE DESCRIPTION ="" INSTANCEID ="1" NAME ="Parameter_File" TRANSFORMATION_NAME ="Parameter_File" TRANSFORMATION_TYPE ="Target Definition" TYPE ="TARGET"/>
+        <INSTANCE DBDNAME ="DBS300" DESCRIPTION ="" INSTANCEID ="2" NAME ="T_PROCESS_STEP" TRANSFORMATION_NAME ="T_PROCESS_STEP" TRANSFORMATION_TYPE ="Source Definition" TYPE ="SOURCE"/>
+        <INSTANCE DESCRIPTION ="The expression creates a single line of text that includes carriage returns to correctly create a parameter file. " INSTANCEID ="3" NAME ="EXP_POPULATE_PARMS" REUSABLE ="NO" TRANSFORMATION_NAME ="EXP_POPULATE_PARMS" TRANSFORMATION_TYPE ="Expression" TYPE ="TRANSFORMATION"/>
+        <INSTANCE DESCRIPTION ="" INSTANCEID ="4" NAME ="SQ_T_PROCESS_STEP" REUSABLE ="NO" TRANSFORMATION_NAME ="SQ_T_PROCESS_STEP" TRANSFORMATION_TYPE ="Source Qualifier" TYPE ="TRANSFORMATION">
+            <ASSOCIATED_SOURCE_INSTANCE NAME ="T_PROCESS_STEP"/>
+        </INSTANCE>
+        <CONNECTOR FROMFIELD ="Parm_String" FROMINSTANCE ="EXP_POPULATE_PARMS" FROMINSTANCETYPE ="Expression" TOFIELD ="Parm_String" TOINSTANCE ="Parameter_File" TOINSTANCETYPE ="Target Definition"/>
+        <CONNECTOR FROMFIELD ="PROCESS_ID" FROMINSTANCE ="T_PROCESS_STEP" FROMINSTANCETYPE ="Source Definition" TOFIELD ="PROCESS_ID" TOINSTANCE ="SQ_T_PROCESS_STEP" TOINSTANCETYPE ="Source Qualifier"/>
+        <CONNECTOR FROMFIELD ="JOB_ID" FROMINSTANCE ="T_PROCESS_STEP" FROMINSTANCETYPE ="Source Definition" TOFIELD ="JOB_ID" TOINSTANCE ="SQ_T_PROCESS_STEP" TOINSTANCETYPE ="Source Qualifier"/>
+        <CONNECTOR FROMFIELD ="SOURCE_SYSTEM_CODE_ID" FROMINSTANCE ="T_PROCESS_STEP" FROMINSTANCETYPE ="Source Definition" TOFIELD ="SOURCE_SYSTEM_CODE_ID" TOINSTANCE ="SQ_T_PROCESS_STEP" TOINSTANCETYPE ="Source Qualifier"/>
+        <CONNECTOR FROMFIELD ="TARGET_SYSTEM_CODE_ID" FROMINSTANCE ="T_PROCESS_STEP" FROMINSTANCETYPE ="Source Definition" TOFIELD ="TARGET_SYSTEM_CODE_ID" TOINSTANCE ="SQ_T_PROCESS_STEP" TOINSTANCETYPE ="Source Qualifier"/>
+        <CONNECTOR FROMFIELD ="FOLDER_NAME" FROMINSTANCE ="T_PROCESS_STEP" FROMINSTANCETYPE ="Source Definition" TOFIELD ="FOLDER_NAME" TOINSTANCE ="SQ_T_PROCESS_STEP" TOINSTANCETYPE ="Source Qualifier"/>
+        <CONNECTOR FROMFIELD ="SESSION_NAME" FROMINSTANCE ="T_PROCESS_STEP" FROMINSTANCETYPE ="Source Definition" TOFIELD ="SESSION_NAME" TOINSTANCE ="SQ_T_PROCESS_STEP" TOINSTANCETYPE ="Source Qualifier"/>
+        <CONNECTOR FROMFIELD ="JOB_ID" FROMINSTANCE ="SQ_T_PROCESS_STEP" FROMINSTANCETYPE ="Source Qualifier" TOFIELD ="JOB_ID" TOINSTANCE ="EXP_POPULATE_PARMS" TOINSTANCETYPE ="Expression"/>
+        <CONNECTOR FROMFIELD ="SOURCE_SYSTEM_CODE_ID" FROMINSTANCE ="SQ_T_PROCESS_STEP" FROMINSTANCETYPE ="Source Qualifier" TOFIELD ="SOURCE_SYSTEM_CODE_ID" TOINSTANCE ="EXP_POPULATE_PARMS" TOINSTANCETYPE ="Expression"/>
+        <CONNECTOR FROMFIELD ="TARGET_SYSTEM_CODE_ID" FROMINSTANCE ="SQ_T_PROCESS_STEP" FROMINSTANCETYPE ="Source Qualifier" TOFIELD ="TARGET_SYSTEM_CODE_ID" TOINSTANCE ="EXP_POPULATE_PARMS" TOINSTANCETYPE ="Expression"/>
+        <CONNECTOR FROMFIELD ="SESSION_NAME" FROMINSTANCE ="SQ_T_PROCESS_STEP" FROMINSTANCETYPE ="Source Qualifier" TOFIELD ="SESSION_NAME" TOINSTANCE ="EXP_POPULATE_PARMS" TOINSTANCETYPE ="Expression"/>
+        <CONNECTOR FROMFIELD ="PROCESS_ID" FROMINSTANCE ="SQ_T_PROCESS_STEP" FROMINSTANCETYPE ="Source Qualifier" TOFIELD ="PROCESS_ID" TOINSTANCE ="EXP_POPULATE_PARMS" TOINSTANCETYPE ="Expression"/>
+        <CONNECTOR FROMFIELD ="FOLDER_NAME" FROMINSTANCE ="SQ_T_PROCESS_STEP" FROMINSTANCETYPE ="Source Qualifier" TOFIELD ="FOLDER_NAME" TOINSTANCE ="EXP_POPULATE_PARMS" TOINSTANCETYPE ="Expression"/>
+        <TARGETLOADORDER ORDER ="1" TARGETINSTANCE ="Parameter_File"/>
+        <ERPINFO/>
+    </MAPPING>
+    <CONFIG DESCRIPTION ="Default session configuration object" ISDEFAULT ="YES" NAME ="default_session_config" VERSIONNUMBER ="1">
+        <ATTRIBUTE NAME ="Advanced" VALUE =""/>
+        <ATTRIBUTE NAME ="Constraint based load ordering" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Cache LOOKUP() function" VALUE ="YES"/>
+        <ATTRIBUTE NAME ="Default buffer block size" VALUE ="Auto"/>
+        <ATTRIBUTE NAME ="Line Sequential buffer length" VALUE ="1024"/>
+        <ATTRIBUTE NAME ="Maximum Memory Allowed For Auto Memory Attributes" VALUE ="512MB"/>
+        <ATTRIBUTE NAME ="Maximum Percentage of Total Memory Allowed For Auto Memory Attributes" VALUE ="5"/>
+        <ATTRIBUTE NAME ="Additional Concurrent Pipelines for Lookup Cache Creation" VALUE ="Auto"/>
+        <ATTRIBUTE NAME ="Custom Properties" VALUE =""/>
+        <ATTRIBUTE NAME ="Pre-build lookup cache" VALUE ="Auto"/>
+        <ATTRIBUTE NAME ="Optimization Level" VALUE ="Medium"/>
+        <ATTRIBUTE NAME ="DateTime Format String" VALUE ="MM/DD/YYYY HH24:MI:SS.US"/>
+        <ATTRIBUTE NAME ="Pre 85 Timestamp Compatibility" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Log Options" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Save session log by" VALUE ="Session runs"/>
+        <ATTRIBUTE NAME ="Save session log for these runs" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Session Log File Max Size" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Session Log File Max Time Period" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Maximum Partial Session Log Files" VALUE ="1"/>
+        <ATTRIBUTE NAME ="Writer Commit Statistics Log Frequency" VALUE ="1"/>
+        <ATTRIBUTE NAME ="Writer Commit Statistics Log Interval" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Error handling" VALUE =""/>
+        <ATTRIBUTE NAME ="Stop on errors" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Override tracing" VALUE ="None"/>
+        <ATTRIBUTE NAME ="On Stored Procedure error" VALUE ="Stop"/>
+        <ATTRIBUTE NAME ="On Pre-session command task error" VALUE ="Stop"/>
+        <ATTRIBUTE NAME ="On Pre-Post SQL error" VALUE ="Stop"/>
+        <ATTRIBUTE NAME ="Enable Recovery" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Error Log Type" VALUE ="None"/>
+        <ATTRIBUTE NAME ="Error Log Table Name Prefix" VALUE =""/>
+        <ATTRIBUTE NAME ="Error Log File Name" VALUE ="PMError.log"/>
+        <ATTRIBUTE NAME ="Log Source Row Data" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Data Column Delimiter" VALUE ="|"/>
+        <ATTRIBUTE NAME ="Partitioning Options" VALUE =""/>
+        <ATTRIBUTE NAME ="Dynamic Partitioning" VALUE ="Disabled"/>
+        <ATTRIBUTE NAME ="Number of Partitions" VALUE ="1"/>
+        <ATTRIBUTE NAME ="Multiplication Factor" VALUE ="Auto"/>
+        <ATTRIBUTE NAME ="Session on Grid" VALUE =""/>
+        <ATTRIBUTE NAME ="Is Enabled" VALUE ="NO"/>
+    </CONFIG>
+    <WORKFLOW DESCRIPTION ="" ISENABLED ="YES" ISRUNNABLESERVICE ="NO" ISSERVICE ="NO" ISVALID ="YES" NAME ="wf_m_Build_Parameter_File" REUSABLE_SCHEDULER ="NO" SCHEDULERNAME ="Scheduler" SERVERNAME ="KG_Intergration" SERVER_DOMAINNAME ="Domain_KG" SUSPEND_ON_ERROR ="NO" TASKS_MUST_RUN_ON_SERVER ="NO" VERSIONNUMBER ="1">
+        <SCHEDULER DESCRIPTION ="" NAME ="Scheduler" REUSABLE ="NO" VERSIONNUMBER ="1">
+            <SCHEDULEINFO SCHEDULETYPE ="ONDEMAND"/>
+        </SCHEDULER>
+        <TASK DESCRIPTION ="" NAME ="Start" REUSABLE ="NO" TYPE ="Start" VERSIONNUMBER ="1"/>
+        <SESSION DESCRIPTION ="" ISVALID ="YES" MAPPINGNAME ="m_Build_Parameter_File" NAME ="s_m_Build_Parameter_File" REUSABLE ="NO" SORTORDER ="Binary" VERSIONNUMBER ="1">
+            <SESSTRANSFORMATIONINST ISREPARTITIONPOINT ="YES" PARTITIONTYPE ="PASS THROUGH" PIPELINE ="1" SINSTANCENAME ="Parameter_File" STAGE ="1" TRANSFORMATIONNAME ="Parameter_File" TRANSFORMATIONTYPE ="Target Definition">
+                <FLATFILE CODEPAGE ="MS1252" CONSECDELIMITERSASONE ="NO" DELIMITED ="NO" DELIMITERS ="," ESCAPE_CHARACTER ="" KEEPESCAPECHAR ="NO" LINESEQUENTIAL ="NO" MULTIDELIMITERSASAND ="NO" NULLCHARTYPE ="ASCII" NULL_CHARACTER ="*" PADBYTES ="1" QUOTE_CHARACTER ="NONE" REPEATABLE ="NO" ROWDELIMITER ="0" SKIPROWS ="0" STRIPTRAILINGBLANKS ="NO"/>
+            </SESSTRANSFORMATIONINST>
+            <SESSTRANSFORMATIONINST ISREPARTITIONPOINT ="NO" PIPELINE ="0" SINSTANCENAME ="T_PROCESS_STEP" STAGE ="0" TRANSFORMATIONNAME ="T_PROCESS_STEP" TRANSFORMATIONTYPE ="Source Definition"/>
+            <SESSTRANSFORMATIONINST ISREPARTITIONPOINT ="NO" PIPELINE ="1" SINSTANCENAME ="EXP_POPULATE_PARMS" STAGE ="2" TRANSFORMATIONNAME ="EXP_POPULATE_PARMS" TRANSFORMATIONTYPE ="Expression">
+                <PARTITION DESCRIPTION ="" NAME ="Partition #1"/>
+            </SESSTRANSFORMATIONINST>
+            <SESSTRANSFORMATIONINST ISREPARTITIONPOINT ="YES" PARTITIONTYPE ="PASS THROUGH" PIPELINE ="1" SINSTANCENAME ="SQ_T_PROCESS_STEP" STAGE ="2" TRANSFORMATIONNAME ="SQ_T_PROCESS_STEP" TRANSFORMATIONTYPE ="Source Qualifier"/>
+            <CONFIGREFERENCE REFOBJECTNAME ="default_session_config" TYPE ="Session config"/>
+            <SESSIONEXTENSION NAME ="File Writer" SINSTANCENAME ="Parameter_File" SUBTYPE ="File Writer" TRANSFORMATIONTYPE ="Target Definition" TYPE ="WRITER">
+                <CONNECTIONREFERENCE CNXREFNAME ="Connection" CONNECTIONNAME ="" CONNECTIONNUMBER ="1" CONNECTIONSUBTYPE ="" CONNECTIONTYPE ="" VARIABLE =""/>
+                <ATTRIBUTE NAME ="Merge Type" VALUE ="No Merge"/>
+                <ATTRIBUTE NAME ="Merge File Directory" VALUE ="$PMTargetFileDir&#x5c;"/>
+                <ATTRIBUTE NAME ="Merge File Name" VALUE ="parameter_file.out"/>
+                <ATTRIBUTE NAME ="Append if Exists" VALUE ="NO"/>
+                <ATTRIBUTE NAME ="Create Target Directory" VALUE ="NO"/>
+                <ATTRIBUTE NAME ="Header Options" VALUE ="No Header"/>
+                <ATTRIBUTE NAME ="Header Command" VALUE =""/>
+                <ATTRIBUTE NAME ="Footer Command" VALUE =""/>
+                <ATTRIBUTE NAME ="Output Type" VALUE ="File"/>
+                <ATTRIBUTE NAME ="Merge Command" VALUE =""/>
+                <ATTRIBUTE NAME ="Output file directory" VALUE ="$PMTargetFileDir&#x5c;"/>
+                <ATTRIBUTE NAME ="Output filename" VALUE ="parameter_file1.txt"/>
+                <ATTRIBUTE NAME ="Reject file directory" VALUE ="$PMBadFileDir&#x5c;"/>
+                <ATTRIBUTE NAME ="Reject filename" VALUE ="parameter_file1.bad"/>
+                <ATTRIBUTE NAME ="Command" VALUE =""/>
+                <ATTRIBUTE NAME ="Codepage Parameter" VALUE =""/>
+            </SESSIONEXTENSION>
+            <SESSIONEXTENSION DSQINSTNAME ="SQ_T_PROCESS_STEP" DSQINSTTYPE ="Source Qualifier" NAME ="Relational Reader" SINSTANCENAME ="T_PROCESS_STEP" SUBTYPE ="Relational Reader" TRANSFORMATIONTYPE ="Source Definition" TYPE ="READER"/>
+            <SESSIONEXTENSION NAME ="Relational Reader" SINSTANCENAME ="SQ_T_PROCESS_STEP" SUBTYPE ="Relational Reader" TRANSFORMATIONTYPE ="Source Qualifier" TYPE ="READER">
+                <CONNECTIONREFERENCE CNXREFNAME ="DB Connection" CONNECTIONNAME ="Ora_Blocks_Test" CONNECTIONNUMBER ="1" CONNECTIONSUBTYPE ="Oracle" CONNECTIONTYPE ="Relational" VARIABLE =""/>
+            </SESSIONEXTENSION>
+            <ATTRIBUTE NAME ="General Options" VALUE =""/>
+            <ATTRIBUTE NAME ="Write Backward Compatible Session Log File" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Session Log File Name" VALUE ="s_m_Build_Parameter_File.log"/>
+            <ATTRIBUTE NAME ="Session Log File directory" VALUE ="$PMSessionLogDir&#x5c;"/>
+            <ATTRIBUTE NAME ="Parameter Filename" VALUE =""/>
+            <ATTRIBUTE NAME ="Enable Test Load" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="$Source connection value" VALUE =""/>
+            <ATTRIBUTE NAME ="$Target connection value" VALUE =""/>
+            <ATTRIBUTE NAME ="Treat source rows as" VALUE ="Insert"/>
+            <ATTRIBUTE NAME ="Commit Type" VALUE ="Target"/>
+            <ATTRIBUTE NAME ="Commit Interval" VALUE ="10000"/>
+            <ATTRIBUTE NAME ="Commit On End Of File" VALUE ="YES"/>
+            <ATTRIBUTE NAME ="Rollback Transactions on Errors" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Recovery Strategy" VALUE ="Fail task and continue workflow"/>
+            <ATTRIBUTE NAME ="Java Classpath" VALUE =""/>
+            <ATTRIBUTE NAME ="Performance" VALUE =""/>
+            <ATTRIBUTE NAME ="DTM buffer size" VALUE ="Auto"/>
+            <ATTRIBUTE NAME ="Collect performance data" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Write performance data to repository" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Incremental Aggregation" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Enable high precision" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Session retry on deadlock" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Pushdown Optimization" VALUE ="None"/>
+            <ATTRIBUTE NAME ="Allow Temporary View for Pushdown" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Allow Temporary Sequence for Pushdown" VALUE ="NO"/>
+            <ATTRIBUTE NAME ="Allow Pushdown for User Incompatible Connections" VALUE ="NO"/>
+        </SESSION>
+        <TASKINSTANCE DESCRIPTION ="" ISENABLED ="YES" NAME ="Start" REUSABLE ="NO" TASKNAME ="Start" TASKTYPE ="Start"/>
+        <TASKINSTANCE DESCRIPTION ="" FAIL_PARENT_IF_INSTANCE_DID_NOT_RUN ="NO" FAIL_PARENT_IF_INSTANCE_FAILS ="NO" ISENABLED ="YES" NAME ="s_m_Build_Parameter_File" REUSABLE ="NO" TASKNAME ="s_m_Build_Parameter_File" TASKTYPE ="Session" TREAT_INPUTLINK_AS_AND ="YES"/>
+        <WORKFLOWLINK CONDITION ="" FROMTASK ="Start" TOTASK ="s_m_Build_Parameter_File"/>
+        <WORKFLOWVARIABLE DATATYPE ="date/time" DEFAULTVALUE ="" DESCRIPTION ="The time this task started" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$Start.StartTime" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="date/time" DEFAULTVALUE ="" DESCRIPTION ="The time this task completed" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$Start.EndTime" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Status of this task&apos;s execution" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$Start.Status" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Status of the previous task that is not disabled" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$Start.PrevTaskStatus" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Error code for this task&apos;s execution" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$Start.ErrorCode" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="string" DEFAULTVALUE ="" DESCRIPTION ="Error message for this task&apos;s execution" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$Start.ErrorMsg" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="date/time" DEFAULTVALUE ="" DESCRIPTION ="The time this task started" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.StartTime" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="date/time" DEFAULTVALUE ="" DESCRIPTION ="The time this task completed" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.EndTime" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Status of this task&apos;s execution" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.Status" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Status of the previous task that is not disabled" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.PrevTaskStatus" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Error code for this task&apos;s execution" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.ErrorCode" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="string" DEFAULTVALUE ="" DESCRIPTION ="Error message for this task&apos;s execution" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.ErrorMsg" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Rows successfully read" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.SrcSuccessRows" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Rows failed to read" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.SrcFailedRows" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Rows successfully loaded" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.TgtSuccessRows" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Rows failed to load" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.TgtFailedRows" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="Total number of transformation errors" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.TotalTransErrors" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="integer" DEFAULTVALUE ="" DESCRIPTION ="First error code" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.FirstErrorCode" USERDEFINED ="NO"/>
+        <WORKFLOWVARIABLE DATATYPE ="string" DEFAULTVALUE ="" DESCRIPTION ="First error message" ISNULL ="NO" ISPERSISTENT ="NO" NAME ="$s_m_Build_Parameter_File.FirstErrorMsg" USERDEFINED ="NO"/>
+        <ATTRIBUTE NAME ="Parameter Filename" VALUE =""/>
+        <ATTRIBUTE NAME ="Write Backward Compatible Workflow Log File" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Workflow Log File Name" VALUE ="wf_m_Build_Parameter_File.log"/>
+        <ATTRIBUTE NAME ="Workflow Log File Directory" VALUE ="$PMWorkflowLogDir&#x5c;"/>
+        <ATTRIBUTE NAME ="Save Workflow log by" VALUE ="By runs"/>
+        <ATTRIBUTE NAME ="Save workflow log for these runs" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Service Name" VALUE =""/>
+        <ATTRIBUTE NAME ="Service Timeout" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Is Service Visible" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Is Service Protected" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Fail task after wait time" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Enable HA recovery" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Automatically recover terminated tasks" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Service Level Name" VALUE ="Default"/>
+        <ATTRIBUTE NAME ="Allow concurrent run with unique run instance name" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Allow concurrent run with same run instance name" VALUE ="NO"/>
+        <ATTRIBUTE NAME ="Maximum number of concurrent runs" VALUE ="0"/>
+        <ATTRIBUTE NAME ="Assigned Web Services Hubs" VALUE =""/>
+        <ATTRIBUTE NAME ="Maximum number of concurrent runs per Hub" VALUE ="1000"/>
+        <ATTRIBUTE NAME ="Expected Service Time" VALUE ="1"/>
+    </WORKFLOW>
+</FOLDER>
+</REPOSITORY>
+</POWERMART>

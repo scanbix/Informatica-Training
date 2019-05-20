@@ -1,0 +1,3 @@
+[<folder name>.WF:wf_Control_Parameter_Reading_Order.ST:s_m_generate_TargetFileName_Param]
+$PMFailureEmailUser=alert@xyz.com
+

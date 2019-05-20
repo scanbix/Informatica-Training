@@ -1,0 +1,10 @@
+[GLOBAL]
+$$expressionstring=IIF(price > 10 OR quantity > 10,price*.05,price*.02)
+
+[<Folder Name>.WF:wf_m_parameter_file_scope]
+$$expressionstring=IIF(price > 100 OR quantity > 100,price*.05,price*.02)
+
+
+[<Folder Name>.WF:wf_m_parameter_file_scope.ST:s_m_parameter_file_scope]
+$$expressionstring=IIF(price > 1000 OR quantity > 1000,price*.05,price*.02)
+
